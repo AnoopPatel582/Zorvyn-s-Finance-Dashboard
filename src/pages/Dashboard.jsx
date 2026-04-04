@@ -8,6 +8,7 @@ import FilterBar from "../components/transactions/FilterBar";
 import TransactionTable from "../components/transactions/TransactionTable";
 import RoleSwitcher from "../components/RoleSwitcher";
 import AddTransactionModal from "../components/AddTransactionModal";
+import { exportToCSV } from "../utils/exportCSV";
 
 const Dashboard = () => {
     const { transactions, setTransactions, role } = useApp();
@@ -141,7 +142,7 @@ const Dashboard = () => {
                     Recent Transactions
                 </h2>
 
-                {role === "admin" && (
+                {/* {role === "admin" && (
                     <button
                         onClick={() => {
                             setEditingTransaction(null);
@@ -151,7 +152,24 @@ const Dashboard = () => {
                     >
                         + Add
                     </button>
-                )}
+                )} */}
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => exportToCSV(filteredData)}
+                        className="bg-gray-800 text-white px-3 py-1 rounded hover:bg-gray-900 transition text-sm mb-2 cursor-pointer"
+                    >
+                        Export CSV
+                    </button>
+
+                    {role === "admin" && (
+                        <button
+                            onClick={() => setShowModal(true)}
+                            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition text-sm"
+                        >
+                            + Add
+                        </button>
+                    )}
+                </div>
                 {showModal && (
                     <AddTransactionModal
                         onClose={closeModal}
