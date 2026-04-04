@@ -10,6 +10,27 @@ import RoleSwitcher from "../components/RoleSwitcher";
 import AddTransactionModal from "../components/AddTransactionModal";
 import { exportToCSV } from "../utils/exportCSV";
 
+const getPageNumbers = (currentPage, totalPages) => {
+    if (totalPages <= 5) {
+        return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    const pageSet = new Set([1, totalPages, currentPage]);
+    if (currentPage > 1) pageSet.add(currentPage - 1);
+    if (currentPage < totalPages) pageSet.add(currentPage + 1);
+
+    const sorted = [...pageSet].sort((a, b) => a - b);
+
+    const result = [];
+    for (let i = 0; i < sorted.length; i++) {
+        if (i > 0 && sorted[i] - sorted[i - 1] > 1) {
+            result.push("...");
+        }
+        result.push(sorted[i]);
+    }
+    return result;
+};
+
 const Dashboard = () => {
     const { transactions, setTransactions, role } = useApp();
     const [filteredData, setFilteredData] = useState(transactions);
@@ -198,9 +219,10 @@ const Dashboard = () => {
                 {totalPages > 1 && (
                     <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
                         <p className="text-sm text-gray-500">
-                            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredData.length)} of {filteredData.length} transactions
+                            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredData.length)} of {filteredData.length}
                         </p>
                         <div className="flex items-center gap-1">
+                            {/* Prev */}
                             <button
                                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                                 disabled={currentPage === 1}
@@ -209,20 +231,35 @@ const Dashboard = () => {
                                 ← Prev
                             </button>
 
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                                <button
-                                    key={page}
-                                    onClick={() => setCurrentPage(page)}
-                                    className={`px-3 py-1 rounded text-sm border transition cursor-pointer ${
-                                        page === currentPage
-                                            ? "bg-gray-800 text-white border-gray-800"
-                                            : "border-gray-200 text-gray-600 hover:bg-gray-100"
-                                    }`}
-                                >
-                                    {page}
-                                </button>
-                            ))}
+                            {/* Large screen: windowed page numbers with ellipsis */}
+                            <div className="hidden sm:flex items-center gap-1">
+                                {getPageNumbers(currentPage, totalPages).map((item, idx) =>
+                                    item === "..." ? (
+                                        <span key={`ellipsis-${idx}`} className="px-2 text-gray-400 text-sm select-none">
+                                            …
+                                        </span>
+                                    ) : (
+                                        <button
+                                            key={item}
+                                            onClick={() => setCurrentPage(item)}
+                                            className={`px-3 py-1 rounded text-sm border transition cursor-pointer ${
+                                                item === currentPage
+                                                    ? "bg-gray-800 text-white border-gray-800"
+                                                    : "border-gray-200 text-gray-600 hover:bg-gray-100"
+                                            }`}
+                                        >
+                                            {item}
+                                        </button>
+                                    )
+                                )}
+                            </div>
 
+                            {/* Small screen: compact "Page X of Y" */}
+                            <span className="sm:hidden text-sm text-gray-600 px-2 whitespace-nowrap">
+                                Page {currentPage} of {totalPages}
+                            </span>
+
+                            {/* Next */}
                             <button
                                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                                 disabled={currentPage === totalPages}
