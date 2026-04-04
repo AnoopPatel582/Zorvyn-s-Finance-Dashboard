@@ -8,10 +8,14 @@ import CategoryChart from "../components/charts/CategoryChart";
 import Insights from "../components/insights/Insights";
 import FilterBar from "../components/transactions/FilterBar";
 import TransactionTable from "../components/transactions/TransactionTable";
+import RoleSwitcher from "../components/RoleSwitcher";
+import AddTransactionModal from "../components/AddTransactionModal";
 
 const Dashboard = () => {
     const { transactions } = useApp();
     const [filteredData, setFilteredData] = useState(transactions);
+    const { role } = useApp();
+    const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         setFilteredData(transactions);
     }, [transactions]);
@@ -53,6 +57,7 @@ const Dashboard = () => {
                 <p className="text-sm text-gray-500 mb-2">
                     Track your financial activity and insights
                 </p>
+                <RoleSwitcher />
             </div>
 
             {/* Summary Cards */}
@@ -98,6 +103,17 @@ const Dashboard = () => {
                     Recent Transactions
                 </h2>
 
+                {role === "admin" && (
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="bg-blue-600 text-white px-3 py-1 rounded"
+                    >
+                        + Add
+                    </button>
+                )}
+                {showModal && (
+                    <AddTransactionModal onClose={() => setShowModal(false)} />
+                )}
                 <FilterBar
                     onSearch={handleSearch}
                     onFilter={handleFilter}

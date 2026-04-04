@@ -36,7 +36,7 @@ export const transactionsData = [
     },
     {
       id: 6,
-      date: "2026-04-04",
+      date: "2026-04-06",
       amount: 2000,
       category: "Freelance",
       type: "income",

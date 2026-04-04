@@ -5,6 +5,7 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
     const [transactions, setTransactions] = useState([]);
+    const [role, setRole] = useState("viewer");
     useEffect(() => {
         const stored = localStorage.getItem("transactions");
 
@@ -21,7 +22,7 @@ export const AppProvider = ({ children }) => {
     }, [transactions]);
 
     return (
-        <AppContext.Provider value={{ transactions, setTransactions }}>
+        <AppContext.Provider value={{ transactions, setTransactions,role, setRole }}>
             {children}
         </AppContext.Provider>
     );
