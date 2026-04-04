@@ -1,6 +1,4 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useApp } from "../context/AppContext";
 import SummaryCard from "../components/cards/SummaryCard";
 import BalanceChart from "../components/charts/BalanceChart";
@@ -12,13 +10,20 @@ import RoleSwitcher from "../components/RoleSwitcher";
 import AddTransactionModal from "../components/AddTransactionModal";
 
 const Dashboard = () => {
-    const { transactions } = useApp();
+    const { transactions, setTransactions, role } = useApp();
     const [filteredData, setFilteredData] = useState(transactions);
-    const { role } = useApp();
     const [showModal, setShowModal] = useState(false);
+    const [editingTransaction, setEditingTransaction] = useState(null);
+
+    const categoryOptions = useMemo(() => {
+        const set = new Set(transactions.map((t) => t.category));
+        return [...set].sort();
+    }, [transactions]);
+
     useEffect(() => {
         setFilteredData(transactions);
     }, [transactions]);
+
     const handleSearch = (value) => {
         const filtered = transactions.filter((t) =>
             t.category.toLowerCase().includes(value.toLowerCase())
@@ -45,6 +50,39 @@ const Dashboard = () => {
         .reduce((acc, t) => acc + t.amount, 0);
 
     const balance = totalIncome - totalExpense;
+
+    const handleDelete = (id) => {
+        setTransactions(transactions.filter((t) => t.id !== id));
+    };
+
+    const handleCategoryFilter = (category) => {
+        if (category === "all") {
+            setFilteredData(transactions);
+        } else {
+            setFilteredData(
+                transactions.filter((t) => t.category === category)
+            );
+        }
+    };
+
+    const handleSort = (type) => {
+        const sorted = [...filteredData];
+
+        if (type === "latest") {
+            sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (type === "amountHigh") {
+            sorted.sort((a, b) => b.amount - a.amount);
+        } else {
+            sorted.sort((a, b) => a.amount - b.amount);
+        }
+
+        setFilteredData(sorted);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        setEditingTransaction(null);
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 md:p-6">
@@ -105,21 +143,38 @@ const Dashboard = () => {
 
                 {role === "admin" && (
                     <button
-                        onClick={() => setShowModal(true)}
+                        onClick={() => {
+                            setEditingTransaction(null);
+                            setShowModal(true);
+                        }}
                         className="bg-blue-600 text-white px-3 py-1 rounded mb-2 cursor-pointer hover:bg-blue-700 transition"
                     >
                         + Add
                     </button>
                 )}
                 {showModal && (
-                    <AddTransactionModal onClose={() => setShowModal(false)} />
+                    <AddTransactionModal
+                        onClose={closeModal}
+                        editData={editingTransaction}
+                    />
                 )}
                 <FilterBar
                     onSearch={handleSearch}
                     onFilter={handleFilter}
+                    onCategoryFilter={handleCategoryFilter}
+                    onSort={handleSort}
+                    categories={categoryOptions}
                 />
 
-                <TransactionTable data={filteredData} />
+                <TransactionTable
+                    data={filteredData}
+                    isAdmin={role === "admin"}
+                    onDelete={handleDelete}
+                    onEdit={(t) => {
+                        setEditingTransaction(t);
+                        setShowModal(true);
+                    }}
+                />
             </div>
 
         </div>

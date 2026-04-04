@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-const FilterBar = ({ onSearch, onFilter }) => {
+const FilterBar = ({
+  onSearch,
+  onFilter,
+  onCategoryFilter,
+  onSort,
+  categories = [],
+}) => {
   const [search, setSearch] = useState("");
 
   const handleSearch = (e) => {
@@ -29,6 +35,25 @@ const FilterBar = ({ onSearch, onFilter }) => {
         <option value="all">All</option>
         <option value="income">Income</option>
         <option value="expense">Expense</option>
+      </select>
+      <select
+        onChange={(e) => onCategoryFilter(e.target.value)}
+        className="p-2 border rounded-lg"
+      >
+        <option value="all">All Categories</option>
+        {categories.map((c) => (
+          <option key={c} value={c}>
+            {c}
+          </option>
+        ))}
+      </select>
+      <select
+        onChange={(e) => onSort(e.target.value)}
+        className="p-2 border rounded-lg"
+      >
+        <option value="latest">Latest</option>
+        <option value="amountHigh">Amount High → Low</option>
+        <option value="amountLow">Amount Low → High</option>
       </select>
 
     </div>

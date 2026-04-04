@@ -5,19 +5,20 @@ const Insights = () => {
 
   const expenses = transactions.filter((t) => t.type === "expense");
 
-  // 🔹 Highest spending category
   const categoryMap = {};
   expenses.forEach((t) => {
     categoryMap[t.category] =
       (categoryMap[t.category] || 0) + t.amount;
   });
 
-  const highestCategory = Object.keys(categoryMap).reduce(
-    (a, b) => (categoryMap[a] > categoryMap[b] ? a : b),
-    Object.keys(categoryMap)[0]
-  );
+  const categoryKeys = Object.keys(categoryMap);
+  const highestCategory =
+    categoryKeys.length > 0
+      ? categoryKeys.reduce((a, b) =>
+          categoryMap[a] > categoryMap[b] ? a : b
+        )
+      : null;
 
-  // 🔹 Monthly comparison
   const currentMonth = new Date().getMonth();
   const lastMonth = currentMonth - 1;
 
@@ -32,17 +33,25 @@ const Insights = () => {
   });
 
   const difference = currentTotal - lastTotal;
-  const percentChange =
-    lastTotal === 0
-      ? 0
-      : ((difference / lastTotal) * 100).toFixed(1);
+  const percentChangeNum =
+    lastTotal === 0 ? 0 : (difference / lastTotal) * 100;
+  const percentChangeDisplay = percentChangeNum.toFixed(1);
+
+  let insightText = "Spending looks stable.";
+
+  if (percentChangeNum > 20) {
+    insightText = "Your spending increased significantly this month.";
+  } else if (percentChangeNum < -20) {
+    insightText = "Great job! You reduced spending this month.";
+  } else if (highestCategory) {
+    insightText = `Most of your expenses are in ${highestCategory}.`;
+  }
 
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4">
         Insights
       </h2>
-
       <div className="grid md:grid-cols-3 gap-4">
 
         {/* Highest Category */}
@@ -61,7 +70,7 @@ const Insights = () => {
             Monthly Change
           </p>
           <h3 className="text-lg font-semibold mt-2">
-            {percentChange}% {difference >= 0 ? "↑" : "↓"}
+            {percentChangeDisplay}% {difference >= 0 ? "↑" : "↓"}
           </h3>
         </div>
 
@@ -71,7 +80,7 @@ const Insights = () => {
             Observation
           </p>
           <h3 className="text-sm mt-2 text-gray-700">
-            You spent more on {highestCategory} this month.
+            {insightText}
           </h3>
         </div>
 

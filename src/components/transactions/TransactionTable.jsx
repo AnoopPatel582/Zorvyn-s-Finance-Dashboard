@@ -1,4 +1,4 @@
-const TransactionTable = ({ data }) => {
+const TransactionTable = ({ data, onDelete, onEdit, isAdmin }) => {
     if (data.length === 0) {
       return (
         <p className="text-gray-500 text-center py-4">
@@ -25,7 +25,7 @@ const TransactionTable = ({ data }) => {
                 <td className="py-2">{new Date(t.date).toLocaleDateString("en-IN")}</td>
                 <td>{t.category}</td>
                 <td className="capitalize">{t.type}</td>
-                <td
+                {/* <td
                   className={`text-right font-medium ${
                     t.type === "income"
                       ? "text-green-600"
@@ -33,7 +33,34 @@ const TransactionTable = ({ data }) => {
                   }`}
                 >
                   ₹ {t.amount.toLocaleString("en-IN")}
-                </td>
+                </td> */}
+                <td className="text-right flex justify-end gap-2">
+  <span
+    className={`font-medium ${
+      t.type === "income" ? "text-green-600" : "text-red-600"
+    }`}
+  >
+    ₹ {t.amount.toLocaleString("en-IN")}
+  </span>
+
+  {isAdmin && (
+    <>
+      <button
+        onClick={() => onEdit(t)}
+        className="text-blue-500 text-sm"
+      >
+        Edit
+      </button>
+
+      <button
+        onClick={() => onDelete(t.id)}
+        className="text-red-500 text-sm"
+      >
+        Delete
+      </button>
+    </>
+  )}
+</td>
               </tr>
             ))}
           </tbody>
