@@ -106,7 +106,7 @@ const Dashboard = () => {
                 {role === "admin" && (
                     <button
                         onClick={() => setShowModal(true)}
-                        className="bg-blue-600 text-white px-3 py-1 rounded"
+                        className="bg-blue-600 text-white px-3 py-1 rounded mb-2 cursor-pointer"
                     >
                         + Add
                     </button>

@@ -38,7 +38,7 @@ const AddTransactionModal = ({ onClose }) => {
           onChange={(e) =>
             setForm({ ...form, date: e.target.value })
           }
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded cursor-pointer"
         />
 
         <input
@@ -65,7 +65,7 @@ const AddTransactionModal = ({ onClose }) => {
           onChange={(e) =>
             setForm({ ...form, type: e.target.value })
           }
-          className="w-full border p-2 rounded"
+          className="w-full border p-2 rounded cursor-pointer"
         >
           <option value="expense">Expense</option>
           <option value="income">Income</option>
@@ -75,11 +75,11 @@ const AddTransactionModal = ({ onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="text-sm"
+            className="text-sm cursor-pointer"
           >
             Cancel
           </button>
-          <button className="bg-blue-600 text-white px-3 py-1 rounded">
+          <button className="bg-blue-600 text-white px-3 py-1 rounded cursor-pointer">
             Add
           </button>
         </div>
