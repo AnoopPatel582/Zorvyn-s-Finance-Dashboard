@@ -22,7 +22,7 @@ const TransactionTable = ({ data }) => {
           <tbody>
             {data.map((t) => (
               <tr key={t.id} className="border-b hover:bg-gray-50">
-                <td className="py-2">{t.date}</td>
+                <td className="py-2">{new Date(t.date).toLocaleDateString("en-IN")}</td>
                 <td>{t.category}</td>
                 <td className="capitalize">{t.type}</td>
                 <td

@@ -61,7 +61,7 @@ const Dashboard = () => {
             </div>
 
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 ">
                 <SummaryCard
                     title="Total Balance"
                     amount={balance}
@@ -85,20 +85,20 @@ const Dashboard = () => {
                     Spending Analytics
                 </h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-                    <div className="bg-white p-4 rounded-xl shadow h-72 border border-gray-100">
+                    <div className="bg-white p-5 rounded-xl shadow-sm h-72 border border-gray-100 hover:shadow-md transition">
                         <BalanceChart />
                     </div>
-                    <div className="bg-white p-4 rounded-xl shadow h-72 border border-gray-100">
+                    <div className="bg-white p-5 rounded-xl shadow-sm h-72 border border-gray-100 hover:shadow-md transition">
                         <CategoryChart />
                     </div>
                 </div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl shadow mb-8 border border-gray-100">
+            <div className="bg-white p-5 rounded-xl shadow-sm mb-8 border border-gray-100 hover:shadow-md transition">
                 <Insights />
             </div>
 
-            <div className="bg-white p-4 rounded-xl shadow border">
+            <div className="bg-white p-5 rounded-xl shadow-sm border-gray-100 hover:shadow-md transition">
                 <h2 className="text-lg font-semibold mb-4">
                     Recent Transactions
                 </h2>
@@ -106,7 +106,7 @@ const Dashboard = () => {
                 {role === "admin" && (
                     <button
                         onClick={() => setShowModal(true)}
-                        className="bg-blue-600 text-white px-3 py-1 rounded mb-2 cursor-pointer"
+                        className="bg-blue-600 text-white px-3 py-1 rounded mb-2 cursor-pointer hover:bg-blue-700 transition"
                     >
                         + Add
                     </button>

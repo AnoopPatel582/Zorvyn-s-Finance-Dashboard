@@ -10,7 +10,9 @@ import {
   
   const BalanceChart = () => {
     const { transactions } = useApp();
-  
+    if (!transactions.length) {
+      return <p className="text-gray-500">No data available</p>;
+    }
     // Convert data for chart
     let runningBalance = 0;
   

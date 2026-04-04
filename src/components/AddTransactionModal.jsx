@@ -25,7 +25,7 @@ const AddTransactionModal = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black/30 flex justify-center items-center animate-fadeIn">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-xl w-80 space-y-3"
@@ -79,7 +79,7 @@ const AddTransactionModal = ({ onClose }) => {
           >
             Cancel
           </button>
-          <button className="bg-blue-600 text-white px-3 py-1 rounded cursor-pointer">
+          <button className="bg-blue-600 text-white px-3 py-1 rounded cursor-pointer hover:bg-blue-700 transition">
             Add
           </button>
         </div>
