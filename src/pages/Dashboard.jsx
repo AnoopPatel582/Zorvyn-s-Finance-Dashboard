@@ -15,6 +15,8 @@ const Dashboard = () => {
     const [filteredData, setFilteredData] = useState(transactions);
     const [showModal, setShowModal] = useState(false);
     const [editingTransaction, setEditingTransaction] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 10;
 
     const categoryOptions = useMemo(() => {
         const set = new Set(transactions.map((t) => t.category));
@@ -23,6 +25,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         setFilteredData(transactions);
+        setCurrentPage(1);
     }, [transactions]);
 
     const handleSearch = (value) => {
@@ -30,6 +33,7 @@ const Dashboard = () => {
             t.category.toLowerCase().includes(value.toLowerCase())
         );
         setFilteredData(filtered);
+        setCurrentPage(1);
     };
 
     const handleFilter = (type) => {
@@ -40,6 +44,7 @@ const Dashboard = () => {
                 transactions.filter((t) => t.type === type)
             );
         }
+        setCurrentPage(1);
     };
 
     const totalIncome = transactions
@@ -64,6 +69,7 @@ const Dashboard = () => {
                 transactions.filter((t) => t.category === category)
             );
         }
+        setCurrentPage(1);
     };
 
     const handleSort = (type) => {
@@ -78,12 +84,19 @@ const Dashboard = () => {
         }
 
         setFilteredData(sorted);
+        setCurrentPage(1);
     };
 
     const closeModal = () => {
         setShowModal(false);
         setEditingTransaction(null);
     };
+
+    const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+    const paginatedData = filteredData.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 md:p-6">
@@ -172,7 +185,7 @@ const Dashboard = () => {
                 />
 
                 <TransactionTable
-                    data={filteredData}
+                    data={paginatedData}
                     isAdmin={role === "admin"}
                     onDelete={handleDelete}
                     onEdit={(t) => {
@@ -180,6 +193,46 @@ const Dashboard = () => {
                         setShowModal(true);
                     }}
                 />
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                        <p className="text-sm text-gray-500">
+                            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredData.length)} of {filteredData.length} transactions
+                        </p>
+                        <div className="flex items-center gap-1">
+                            <button
+                                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                                disabled={currentPage === 1}
+                                className="px-3 py-1 rounded text-sm border border-gray-200 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                            >
+                                ← Prev
+                            </button>
+
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                <button
+                                    key={page}
+                                    onClick={() => setCurrentPage(page)}
+                                    className={`px-3 py-1 rounded text-sm border transition cursor-pointer ${
+                                        page === currentPage
+                                            ? "bg-gray-800 text-white border-gray-800"
+                                            : "border-gray-200 text-gray-600 hover:bg-gray-100"
+                                    }`}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+
+                            <button
+                                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                                className="px-3 py-1 rounded text-sm border border-gray-200 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                            >
+                                Next →
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
 
         </div>
