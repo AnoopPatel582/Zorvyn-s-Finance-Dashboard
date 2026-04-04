@@ -15,8 +15,6 @@ export const AppProvider = ({ children }) => {
             setTransactions(transactionsData);
         }
     }, []);
-
-    // Save to localStorage
     useEffect(() => {
         localStorage.setItem("transactions", JSON.stringify(transactions));
     }, [transactions]);

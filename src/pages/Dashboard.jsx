@@ -87,8 +87,6 @@ const Dashboard = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 md:p-6">
-
-            {/* Navbar */}
             <div>
                 <h1 className="text-2xl font-semibold text-gray-800">
                     Overview
@@ -117,8 +115,6 @@ const Dashboard = () => {
                     color="text-red-600"
                 />
             </div>
-
-            {/* Rest remains same */}
             <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-4">
                     Spending Analytics
@@ -141,18 +137,6 @@ const Dashboard = () => {
                 <h2 className="text-lg font-semibold mb-4">
                     Recent Transactions
                 </h2>
-
-                {/* {role === "admin" && (
-                    <button
-                        onClick={() => {
-                            setEditingTransaction(null);
-                            setShowModal(true);
-                        }}
-                        className="bg-blue-600 text-white px-3 py-1 rounded mb-2 cursor-pointer hover:bg-blue-700 transition"
-                    >
-                        + Add
-                    </button>
-                )} */}
                 <div className="flex gap-2">
                     <button
                         onClick={() => exportToCSV(filteredData)}
@@ -163,8 +147,11 @@ const Dashboard = () => {
 
                     {role === "admin" && (
                         <button
-                            onClick={() => setShowModal(true)}
-                            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition text-sm"
+                            onClick={() => {
+                                setEditingTransaction(null);
+                                setShowModal(true);
+                            }}
+                            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition text-sm cursor-pointer mb-2"
                         >
                             + Add
                         </button>

@@ -30,7 +30,7 @@ const FilterBar = ({
       {/* Filter */}
       <select
         onChange={(e) => onFilter(e.target.value)}
-        className="p-2 border rounded-lg"
+        className="p-2 border rounded-lg cursor-pointer"
       >
         <option value="all">All</option>
         <option value="income">Income</option>
@@ -38,7 +38,7 @@ const FilterBar = ({
       </select>
       <select
         onChange={(e) => onCategoryFilter(e.target.value)}
-        className="p-2 border rounded-lg"
+        className="p-2 border rounded-lg cursor-pointer"
       >
         <option value="all">All Categories</option>
         {categories.map((c) => (
@@ -49,7 +49,7 @@ const FilterBar = ({
       </select>
       <select
         onChange={(e) => onSort(e.target.value)}
-        className="p-2 border rounded-lg"
+        className="p-2 border rounded-lg cursor-pointer"
       >
         <option value="latest">Latest</option>
         <option value="amountHigh">Amount High → Low</option>
