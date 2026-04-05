@@ -62,13 +62,16 @@ const AddTransactionModal = ({ onClose, editData }) => {
 
   const isEdit = Boolean(editData);
 
+  const inputClass =
+    "w-full border dark:border-gray-600 p-2 rounded bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 outline-none";
+
   return (
-    <div className="fixed inset-0 bg-black/30 flex justify-center items-center animate-fadeIn">
+    <div className="fixed inset-0 bg-black/40 flex justify-center items-center animate-fadeIn z-50">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-xl w-80 space-y-3"
+        className="bg-white dark:bg-gray-800 p-6 rounded-xl w-80 space-y-3 shadow-xl"
       >
-        <h2 className="font-semibold">
+        <h2 className="font-semibold text-gray-800 dark:text-gray-100">
           {isEdit ? "Edit Transaction" : "Add Transaction"}
         </h2>
 
@@ -76,10 +79,8 @@ const AddTransactionModal = ({ onClose, editData }) => {
           type="date"
           required
           value={form.date}
-          onChange={(e) =>
-            setForm({ ...form, date: e.target.value })
-          }
-          className="w-full border p-2 rounded cursor-pointer"
+          onChange={(e) => setForm({ ...form, date: e.target.value })}
+          className={`${inputClass} cursor-pointer`}
         />
 
         <input
@@ -87,10 +88,8 @@ const AddTransactionModal = ({ onClose, editData }) => {
           placeholder="Amount"
           required
           value={form.amount}
-          onChange={(e) =>
-            setForm({ ...form, amount: e.target.value })
-          }
-          className="w-full border p-2 rounded"
+          onChange={(e) => setForm({ ...form, amount: e.target.value })}
+          className={inputClass}
         />
 
         <input
@@ -98,28 +97,24 @@ const AddTransactionModal = ({ onClose, editData }) => {
           placeholder="Category"
           required
           value={form.category}
-          onChange={(e) =>
-            setForm({ ...form, category: e.target.value })
-          }
-          className="w-full border p-2 rounded"
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
+          className={inputClass}
         />
 
         <select
           value={form.type}
-          onChange={(e) =>
-            setForm({ ...form, type: e.target.value })
-          }
-          className="w-full border p-2 rounded cursor-pointer"
+          onChange={(e) => setForm({ ...form, type: e.target.value })}
+          className={`${inputClass} cursor-pointer`}
         >
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
 
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 pt-1">
           <button
             type="button"
             onClick={onClose}
-            className="text-sm cursor-pointer"
+            className="text-sm cursor-pointer text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition"
           >
             Cancel
           </button>

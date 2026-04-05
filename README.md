@@ -20,7 +20,7 @@ Deployed on [Vercel](https://vercel.com). No login required — open the link an
 - [Setup Instructions](#setup-instructions)
 - [Features](#features)
 - [Role-Based Access](#role-based-access)
-- [Pagination — A Creative Addition](#pagination--a-creative-addition)
+- [Creative Additions](#creative-additions)
 - [Challenges & Design Decisions](#challenges--design-decisions)
 
 ---
@@ -188,6 +188,9 @@ A **RoleSwitcher** dropdown at the top of the dashboard toggles between two role
 ### 11. Data Persistence (localStorage)
 Transaction data is persisted to the browser's `localStorage`. Any transactions added, edited, or deleted by an admin will survive a page refresh. If no stored data is found, the app seeds from the default mock dataset.
 
+### 12. Dark Mode Toggle
+A 🌙 / ☀️ toggle button in the top-right corner of the dashboard switches the entire interface between light and dark mode. The preference is saved to `localStorage` so it persists across page refreshes. Dark mode is implemented using Tailwind CSS v4's `@custom-variant` directive with the `.dark` class applied directly on the `<html>` element — every component, card, chart container, modal, input, and pagination control responds to it.
+
 ---
 
 ## Role-Based Access
@@ -203,16 +206,24 @@ Transaction data is persisted to the browser's `localStorage`. Any transactions 
 
 ---
 
-## Pagination — A Creative Addition
+## Creative Additions
 
-> **Pagination was not part of the original project requirements.** It was added as a self-initiated improvement to enhance usability when the transaction list grows large.
+> The following features were **not part of the original project requirements**. They were added as self-initiated improvements to enhance usability and user experience.
 
-With 34 transactions (and the ability to add more), displaying all rows at once can make the table hard to scan. To address this, we implemented client-side pagination directly in `Dashboard.jsx`:
+### Pagination
+With 34 transactions (and the ability to add more), displaying all rows at once can make the table hard to scan. To address this, client-side pagination was implemented directly in `Dashboard.jsx`:
 
 - **10 rows per page** — a comfortable number for both desktop and mobile
 - **Page resets to 1** automatically whenever the user searches, filters by type, filters by category, or changes the sort order — so results always start from the top
 - **Windowed pagination with ellipsis** on medium and large screens — instead of showing all page number buttons at once, only the first page, last page, current page, and its immediate neighbors are shown. Gaps are represented with a `…` symbol (e.g., `1 … 3 4 5 … 10`). This keeps the pagination bar compact regardless of how many pages exist.
 - **"Page X of Y" display** on small (mobile) screens — numbered buttons are hidden entirely and replaced with a simple text indicator between the Prev and Next buttons, saving horizontal space.
+
+### Dark Mode Toggle
+A full dark mode was added across every component in the app. Implementation details:
+- **Toggle button** (🌙 / ☀️) sits in the top-right of the dashboard header, accessible at all times
+- **Preference persists** — stored in `localStorage` and restored on page load, so the user's chosen mode survives a refresh
+- **Tailwind CSS v4 class-based dark mode** — uses `@custom-variant dark` in `index.css` so all `dark:` utility classes respond to the `.dark` class on `<html>`, toggled by the `AppContext`
+- Every component is fully themed: summary cards, chart containers, insights cards, filter inputs, transaction table (both mobile card and desktop table layouts), modal form, role switcher, pagination controls, and section headings
 
 ---
 

@@ -3,7 +3,7 @@ import { formatTableDate } from "../../utils/dates";
 const TransactionTable = ({ data, onDelete, onEdit, isAdmin }) => {
   if (data.length === 0) {
     return (
-      <p className="text-gray-500 text-center py-4">
+      <p className="text-gray-500 dark:text-gray-400 text-center py-4">
         No transactions found
       </p>
     );
@@ -11,31 +11,34 @@ const TransactionTable = ({ data, onDelete, onEdit, isAdmin }) => {
 
   return (
     <>
+      {/* ── Mobile: Card layout (hidden on md+) ── */}
       <div className="md:hidden flex flex-col gap-2">
         {data.map((t) => (
           <div
             key={t.id}
-            className="border border-gray-100 rounded-lg p-3 bg-gray-50 hover:bg-gray-100 transition"
+            className="border border-gray-100 dark:border-gray-700 rounded-lg p-3 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
           >
+            {/* Top row: date + category | amount */}
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs text-gray-400">{formatTableDate(t.date)}</p>
-                <p className="text-sm font-medium text-gray-800 mt-0.5">{t.category}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">{formatTableDate(t.date)}</p>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-100 mt-0.5">{t.category}</p>
               </div>
               <div className="text-right">
                 <span
-                  className={`text-sm font-semibold ${t.type === "income" ? "text-green-600" : "text-red-600"
-                    }`}
+                  className={`text-sm font-semibold ${
+                    t.type === "income" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                  }`}
                 >
                   ₹ {t.amount.toLocaleString("en-IN")}
                 </span>
-                <p className="text-xs text-gray-400 capitalize mt-0.5">{t.type}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 capitalize mt-0.5">{t.type}</p>
               </div>
             </div>
 
             {/* Admin actions */}
             {isAdmin && (
-              <div className="flex gap-2 mt-2 pt-2 border-t border-gray-200">
+              <div className="flex gap-2 mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
                 <button
                   onClick={() => onEdit(t)}
                   className="flex-1 bg-blue-600 text-white py-1.5 rounded hover:bg-blue-700 transition text-xs font-medium cursor-pointer"
@@ -53,10 +56,12 @@ const TransactionTable = ({ data, onDelete, onEdit, isAdmin }) => {
           </div>
         ))}
       </div>
+
+      {/* ── Desktop: Table layout (hidden below md) ── */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="text-sm text-gray-500 border-b">
+            <tr className="text-sm text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">
               <th className="py-2">Date</th>
               <th>Category</th>
               <th>Type</th>
@@ -66,15 +71,16 @@ const TransactionTable = ({ data, onDelete, onEdit, isAdmin }) => {
 
           <tbody>
             {data.map((t) => (
-              <tr key={t.id} className="border-b hover:bg-gray-50">
-                <td className="py-2">{formatTableDate(t.date)}</td>
-                <td>{t.category}</td>
-                <td className="capitalize">{t.type}</td>
+              <tr key={t.id} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/40">
+                <td className="py-2 text-gray-700 dark:text-gray-300">{formatTableDate(t.date)}</td>
+                <td className="text-gray-700 dark:text-gray-300">{t.category}</td>
+                <td className="capitalize text-gray-700 dark:text-gray-300">{t.type}</td>
                 <td className="text-right">
                   <div className="flex justify-end items-center gap-2">
                     <span
-                      className={`font-medium ${t.type === "income" ? "text-green-600" : "text-red-600"
-                        }`}
+                      className={`font-medium ${
+                        t.type === "income" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                      }`}
                     >
                       ₹ {t.amount.toLocaleString("en-IN")}
                     </span>

@@ -53,7 +53,7 @@ const BalanceChart = () => {
 
   return (
     <div className="h-full">
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">
         Balance Trend
       </h2>
 

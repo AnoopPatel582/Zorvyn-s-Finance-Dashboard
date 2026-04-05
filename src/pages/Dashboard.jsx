@@ -32,7 +32,7 @@ const getPageNumbers = (currentPage, totalPages) => {
 };
 
 const Dashboard = () => {
-    const { transactions, setTransactions, role } = useApp();
+    const { transactions, setTransactions, role, darkMode, toggleDarkMode } = useApp();
     const [filteredData, setFilteredData] = useState(transactions);
     const [showModal, setShowModal] = useState(false);
     const [editingTransaction, setEditingTransaction] = useState(null);
@@ -120,15 +120,26 @@ const Dashboard = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4 md:p-6">
-            <div>
-                <h1 className="text-2xl font-semibold text-gray-800">
-                    Overview
-                </h1>
-                <p className="text-sm text-gray-500 mb-2">
-                    Track your financial activity and insights
-                </p>
-                <RoleSwitcher />
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4 md:p-6 transition-colors duration-300">
+            <div className="flex items-start justify-between mb-2">
+                <div>
+                    <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                        Overview
+                    </h1>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        Track your financial activity and insights
+                    </p>
+                    <RoleSwitcher />
+                </div>
+
+                {/* Dark mode toggle */}
+                <button
+                    onClick={toggleDarkMode}
+                    title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                    className="mt-1 p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer text-lg leading-none"
+                >
+                    {darkMode ? "☀️" : "🌙"}
+                </button>
             </div>
 
             {/* Summary Cards */}
@@ -150,25 +161,25 @@ const Dashboard = () => {
                 />
             </div>
             <div className="mb-6">
-                <h2 className="text-lg font-semibold mb-4">
+                <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">
                     Spending Analytics
                 </h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-                    <div className="bg-white p-5 rounded-xl shadow-sm h-72 border border-gray-100 hover:shadow-md transition">
+                    <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm h-72 border border-gray-100 dark:border-gray-700 hover:shadow-md transition">
                         <BalanceChart />
                     </div>
-                    <div className="bg-white p-5 rounded-xl shadow-sm h-72 border border-gray-100 hover:shadow-md transition">
+                    <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm h-72 border border-gray-100 dark:border-gray-700 hover:shadow-md transition">
                         <CategoryChart />
                     </div>
                 </div>
             </div>
 
-            <div className="bg-white p-5 rounded-xl shadow-sm mb-8 border border-gray-100 hover:shadow-md transition">
+            <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm mb-8 border border-gray-100 dark:border-gray-700 hover:shadow-md transition">
                 <Insights />
             </div>
 
-            <div className="bg-white p-5 rounded-xl shadow-sm border-gray-100 hover:shadow-md transition">
-                <h2 className="text-lg font-semibold mb-4">
+            <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition">
+                <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">
                     Recent Transactions
                 </h2>
                 <div className="flex gap-2">
@@ -217,8 +228,8 @@ const Dashboard = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                        <p className="text-sm text-gray-500">
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
                             Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredData.length)} of {filteredData.length}
                         </p>
                         <div className="flex items-center gap-1">
@@ -226,7 +237,7 @@ const Dashboard = () => {
                             <button
                                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                                 disabled={currentPage === 1}
-                                className="px-3 py-1 rounded text-sm border border-gray-200 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                                className="px-3 py-1 rounded text-sm border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
                             >
                                 ← Prev
                             </button>
@@ -235,7 +246,7 @@ const Dashboard = () => {
                             <div className="hidden sm:flex items-center gap-1">
                                 {getPageNumbers(currentPage, totalPages).map((item, idx) =>
                                     item === "..." ? (
-                                        <span key={`ellipsis-${idx}`} className="px-2 text-gray-400 text-sm select-none">
+                                        <span key={`ellipsis-${idx}`} className="px-2 text-gray-400 dark:text-gray-500 text-sm select-none">
                                             …
                                         </span>
                                     ) : (
@@ -244,8 +255,8 @@ const Dashboard = () => {
                                             onClick={() => setCurrentPage(item)}
                                             className={`px-3 py-1 rounded text-sm border transition cursor-pointer ${
                                                 item === currentPage
-                                                    ? "bg-gray-800 text-white border-gray-800"
-                                                    : "border-gray-200 text-gray-600 hover:bg-gray-100"
+                                                    ? "bg-gray-800 text-white border-gray-800 dark:bg-gray-200 dark:text-gray-900 dark:border-gray-200"
+                                                    : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             }`}
                                         >
                                             {item}
@@ -255,7 +266,7 @@ const Dashboard = () => {
                             </div>
 
                             {/* Small screen: compact "Page X of Y" */}
-                            <span className="sm:hidden text-sm text-gray-600 px-2 whitespace-nowrap">
+                            <span className="sm:hidden text-sm text-gray-600 dark:text-gray-400 px-2 whitespace-nowrap">
                                 Page {currentPage} of {totalPages}
                             </span>
 
@@ -263,7 +274,7 @@ const Dashboard = () => {
                             <button
                                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                                 disabled={currentPage === totalPages}
-                                className="px-3 py-1 rounded text-sm border border-gray-200 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                                className="px-3 py-1 rounded text-sm border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
                             >
                                 Next →
                             </button>
