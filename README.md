@@ -94,7 +94,7 @@ finance-dashboard/
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/AnoopPatel582/Zorvyn-s-Finance-Dashboard
    cd finance-dashboard
    ```
 
