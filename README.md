@@ -4,8 +4,16 @@ A personal finance tracking dashboard built with React, Vite, and Tailwind CSS. 
 
 ---
 
-## Table of Contents
+## 🚀 Live Demo
 
+**[https://zorvyn-s-finance-dashboard.vercel.app/](https://zorvyn-s-finance-dashboard.vercel.app/)**
+
+Deployed on [Vercel](https://vercel.com). No login required — open the link and it works instantly.
+
+---
+
+## Table of Contents
+- [Live Demo](#-live-demo)
 - [Project Details](#project-details)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
