@@ -13,10 +13,6 @@ Deployed on [Vercel](https://vercel.com). No login required — open the link an
 ---
 
 ## Table of Contents
-<<<<<<< HEAD
-
-=======
->>>>>>> 172ca8ed2d65104a42cfbff814bf0fea78787051
 - [Live Demo](#-live-demo)
 - [Project Details](#project-details)
 - [Tech Stack](#tech-stack)
@@ -26,10 +22,6 @@ Deployed on [Vercel](https://vercel.com). No login required — open the link an
 - [Role-Based Access](#role-based-access)
 - [Pagination — A Creative Addition](#pagination--a-creative-addition)
 - [Challenges & Design Decisions](#challenges--design-decisions)
-<<<<<<< HEAD
-- [Data Persistence](#data-persistence)
-=======
->>>>>>> 172ca8ed2d65104a42cfbff814bf0fea78787051
 
 ---
 
@@ -110,11 +102,7 @@ finance-dashboard/
 
 1. **Clone the repository**
    ```bash
-<<<<<<< HEAD
-   git clone <your-repo-url>
-=======
    git clone https://github.com/AnoopPatel582/Zorvyn-s-Finance-Dashboard
->>>>>>> 172ca8ed2d65104a42cfbff814bf0fea78787051
    cd finance-dashboard
    ```
 
